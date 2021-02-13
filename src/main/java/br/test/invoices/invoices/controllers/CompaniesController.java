@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.test.invoices.invoices.dtos.inputs.CreateCompanyInputDTO;
 import br.test.invoices.invoices.dtos.outputs.CompanyOutputDTO;
 import br.test.invoices.invoices.dtos.outputs.CreateCompanyOutputDTO;
+import br.test.invoices.invoices.dtos.outputs.TaxRegimeType;
 import br.test.invoices.invoices.services.CompanyService;
 
 @RestController
@@ -41,7 +42,7 @@ public class CompaniesController {
 		if (createCompanyOutputDTO.getSuccess())
 			return new ResponseEntity<CreateCompanyOutputDTO>(createCompanyOutputDTO, HttpStatus.CREATED);
 
-		return new ResponseEntity<CreateCompanyOutputDTO>(createCompanyOutputDTO, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(createCompanyOutputDTO, HttpStatus.BAD_REQUEST);
 	}
 
 	@GetMapping("search")
@@ -50,7 +51,7 @@ public class CompaniesController {
 			@PageableDefault(page = 0, size = 10) Pageable pageable) {
 		List<CompanyOutputDTO> companiesDTO = companyService.searchCompaniesByFilters(cnpjOrName, taxRegime, pageable);
 
-		return new ResponseEntity<List<CompanyOutputDTO>>(companiesDTO, HttpStatus.OK);
+		return new ResponseEntity<>(companiesDTO, HttpStatus.OK);
 	}
 
 	@DeleteMapping("delete/{id}")
@@ -61,7 +62,11 @@ public class CompaniesController {
 		if (success)
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-		return new ResponseEntity<String>("Não foi possível deletar empresa.", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("Não foi possível deletar empresa.", HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("types")
+	public ResponseEntity<List<TaxRegimeType>> getTypes() {
+		return new ResponseEntity<>(companyService.getAllTaxRegimeTypes(), HttpStatus.OK);
+	}
 }

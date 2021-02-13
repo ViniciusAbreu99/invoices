@@ -1,6 +1,7 @@
 package br.test.invoices.invoices.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,9 @@ import br.test.invoices.invoices.dtos.ErrorDTO;
 import br.test.invoices.invoices.dtos.inputs.CreateCompanyInputDTO;
 import br.test.invoices.invoices.dtos.outputs.CompanyOutputDTO;
 import br.test.invoices.invoices.dtos.outputs.CreateCompanyOutputDTO;
+import br.test.invoices.invoices.dtos.outputs.TaxRegimeType;
 import br.test.invoices.invoices.entities.Company;
+import br.test.invoices.invoices.enums.TaxRegime;
 import br.test.invoices.invoices.repositories.CompanyRepository;
 
 @Service
@@ -74,6 +77,10 @@ public class CompanyService {
 
 		companyRepository.deleteById(id);
 		return true;
+	}
+
+	public List<TaxRegimeType> getAllTaxRegimeTypes() {
+		return Arrays.asList(TaxRegime.values()).stream().map(TaxRegimeType::new).collect(Collectors.toList());
 	}
 
 }

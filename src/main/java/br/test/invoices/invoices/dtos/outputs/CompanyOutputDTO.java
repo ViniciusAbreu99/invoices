@@ -6,6 +6,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class CompanyOutputDTO {
+	private Integer id;
 	private String companyName;
 	private String cnpj;
 	private String taxRegime;
@@ -16,5 +17,6 @@ public class CompanyOutputDTO {
 		this.cnpj = company.getCnpj();
 		this.email = company.getEmail();
 		this.taxRegime = company.getTaxRegime().getDescription();
+		this.id = company.getId();
 	}
 }
