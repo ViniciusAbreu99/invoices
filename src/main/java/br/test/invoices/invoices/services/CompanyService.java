@@ -1,6 +1,5 @@
 package br.test.invoices.invoices.services;
 
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,11 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.MethodParameter;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import br.test.invoices.invoices.dtos.ErrorDTO;
 import br.test.invoices.invoices.dtos.inputs.CreateCompanyInputDTO;
@@ -67,9 +62,9 @@ public class CompanyService {
 		return companyRepository.existsByEmail(email) == false;
 	}
 	
-	public List<CompanyOutputDTO> searchCompaniesByFilters(String cnpjOrName, Integer taxRegime, Pageable pageable) {
+	public List<CompanyOutputDTO> searchCompaniesByFilters(String cnpjOrName, Integer taxRegime) {
 
-		Page<Company> companies = companyRepository.findAllByFilters(cnpjOrName, taxRegime, pageable);
+		List<Company> companies = companyRepository.findAllByFilters(cnpjOrName, taxRegime);
 
 		return companies.stream().map(CompanyOutputDTO::new).collect(Collectors.toList());
 	}

@@ -12,9 +12,6 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
 import br.test.invoices.invoices.entities.Company;
 import br.test.invoices.invoices.enums.TaxRegime;
@@ -25,7 +22,7 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom {
 	private EntityManager entityManager;
 
 	@Override
-	public Page<Company> findAllByFilters(String cnpjOrName, Integer taxRegime, Pageable pageable) {
+	public List<Company> findAllByFilters(String cnpjOrName, Integer taxRegime) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Company> criteriaQuery = criteriaBuilder.createQuery(Company.class);
 
@@ -45,13 +42,6 @@ public class CompanyRepositoryImpl implements CompanyRepositoryCustom {
 
 		TypedQuery<Company> query = entityManager.createQuery(criteriaQuery);
 
-		Integer totalRows = query.getResultList().size();
-
-		query.setFirstResult((pageable.getPageNumber()) * pageable.getPageSize());
-		query.setMaxResults(pageable.getPageSize());
-
-		List<Company> resultList = query.getResultList();
-		Page<Company> result = new PageImpl<Company>(resultList, pageable, totalRows);
-		return result;
+		return query.getResultList();
 	}
 }

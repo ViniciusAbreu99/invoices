@@ -5,8 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -50,9 +48,8 @@ public class CompaniesController {
 
 	@GetMapping("search")
 	public ResponseEntity<List<CompanyOutputDTO>> searchCompanies(@RequestParam(required = false) String cnpjOrName,
-			@RequestParam(required = false) Integer taxRegime,
-			@PageableDefault(page = 0, size = 10) Pageable pageable) {
-		List<CompanyOutputDTO> companiesDTO = companyService.searchCompaniesByFilters(cnpjOrName, taxRegime, pageable);
+			@RequestParam(required = false) Integer taxRegime) {
+		List<CompanyOutputDTO> companiesDTO = companyService.searchCompaniesByFilters(cnpjOrName, taxRegime);
 
 		return new ResponseEntity<>(companiesDTO, HttpStatus.OK);
 	}
