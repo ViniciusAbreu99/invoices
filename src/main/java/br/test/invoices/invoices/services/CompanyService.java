@@ -16,6 +16,7 @@ import br.test.invoices.invoices.dtos.ErrorDTO;
 import br.test.invoices.invoices.dtos.inputs.CreateCompanyInputDTO;
 import br.test.invoices.invoices.dtos.outputs.CompanyOutputDTO;
 import br.test.invoices.invoices.dtos.outputs.CreateCompanyOutputDTO;
+import br.test.invoices.invoices.dtos.outputs.DashboardOutputDTO;
 import br.test.invoices.invoices.dtos.outputs.TaxRegimeType;
 import br.test.invoices.invoices.entities.Company;
 import br.test.invoices.invoices.enums.TaxRegime;
@@ -83,4 +84,9 @@ public class CompanyService {
 		return Arrays.asList(TaxRegime.values()).stream().map(TaxRegimeType::new).collect(Collectors.toList());
 	}
 
+	public DashboardOutputDTO getDashboard() {
+		List<Company> companies = companyRepository.findAll();
+		
+		return new DashboardOutputDTO(companies);
+	}
 }
